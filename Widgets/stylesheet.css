@@ -1,0 +1,62 @@
+QMainWindow {
+    background-color: white;
+}
+
+QWidget{
+    background-color: rgb(64, 64, 64);
+}
+
+QWidget#CsvWidget{
+    background-color: grey;
+    border-radius: 5px;
+
+}
+
+QWidget#ModeDataWidget{
+    background-color: grey;
+}
+
+QListWidget#CsvFilesList {
+    border-radius: 0px;
+
+}
+
+QPushButton {
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: rgb(56,62,66);
+    border-color: black;
+    color: black;
+    border-radius: 15px;
+}
+
+QPushButton:hover {
+    color: white;
+    background-color: black;
+    border-radius: 15px;
+}
+
+QListWidget#CsvFilesList {
+    background-color: white;
+    font-size: 13px;
+    border: none;
+    margin: 0;
+}
+
+QComboBox{
+    height: 40px;
+    width: 70px;
+    font-size: 15px;
+    color: black;
+    border: 1px solid gray;
+    border-radius: 15px;
+    background-color: darkgray;
+}
+
+SinglePlotWidget {
+    color: white;
+}
+MultiPlotWidget {
+    color: white;
+}
