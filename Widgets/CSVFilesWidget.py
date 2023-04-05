@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton, QFileDial
     QVBoxLayout, QApplication, QListWidget, QAbstractItemView, QListWidgetItem
 
 from lib.CsvDataObject import CsvDataObject
-from termcolor import colored
 
 STEPS_LOOP_COLOR = 5  # steps for color loop when color should start iterating from beginning
 

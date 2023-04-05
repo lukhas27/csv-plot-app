@@ -20,7 +20,6 @@ with open(f'{os.getcwd()}/lib/data_template.json') as f:
         for _identifier in data_template[_group]:
             INIT_IDENTIFIER = _identifier
             break
-        break
 
 css_file_path = 'Widgets/stylesheet_dark.css'
 file = QFile(css_file_path)
@@ -41,7 +40,7 @@ class MainWindow(QMainWindow):
         self.single_plot_data_strategy = SinglePlotDataStrategy(INIT_GROUP, INIT_IDENTIFIER)
         self.multi_plot_data_strategy = MultiPlotDataStrategy(INIT_GROUP)
 
-        self.setWindowTitle("LivePlot Sensor Data of CSV Files")
+        self.setWindowTitle("Plot Sensor Data of CSV Files")
         self.resize(1200, 800)
         self.setStyleSheet(GLOBAL_STYLES)
         HEADER_MAX_HEIGHT = 150
