@@ -13,7 +13,7 @@ class IPlotWidget(GraphicsLayoutWidget):
         self._plot_data_strategy = plot_data_strategy
         self._data_objs = data_objs
 
-        self.setBackground('black')
+        self.setBackground(None)
 
 
     def set_data_objects(self, data_objs: list):

@@ -2,61 +2,81 @@ QMainWindow {
     background-color: white;
 }
 
-QWidget{
-    background-color: rgb(64, 64, 64);
-}
-
-QWidget#CsvWidget{
-    background-color: grey;
+QWidget {
     border-radius: 5px;
-
 }
 
-QWidget#ModeDataWidget{
-    background-color: grey;
+QWidget#CsvWidget {
+    background-color: darkgrey;
 }
 
-QListWidget#CsvFilesList {
-    border-radius: 0px;
-
+QWidget#ModeDataWidget {
+    background-color: darkgrey;
 }
-
 QPushButton {
+    margin-right: 5px;
     font-size: 20px;
     width: 50px;
     height: 50px;
-    background-color: rgb(56,62,66);
-    border-color: black;
-    color: black;
+    background-color: white;
+    border-color: grey;
+    color: grey;
     border-radius: 15px;
 }
 
 QPushButton:hover {
-    color: white;
-    background-color: black;
-    border-radius: 15px;
+    border-style: solid;
+    border-width: 2px;
+}
+
+QRadioButton {
+    height: 100%;
+    width: 100%;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: black;
+}
+
+QRadioButton::indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 7px;
+}
+
+QRadioButton::indicator:checked {
+    background-color: green;
+    border: 2px solid gray;
+}
+
+QRadioButton::indicator:unchecked {
+    background-color: white;
+    border: 2px solid gray;
 }
 
 QListWidget#CsvFilesList {
+    selection-background-color: blue;
+    color: white;
     background-color: white;
+    border-radius: 0px;
     font-size: 13px;
-    border: none;
-    margin: 0;
+    padding: 0px;
 }
 
-QComboBox{
+QComboBox {
     height: 40px;
-    width: 70px;
-    font-size: 15px;
+    width: 75px;
     color: black;
-    border: 1px solid gray;
-    border-radius: 15px;
-    background-color: darkgray;
+    background-color: white;
 }
 
-SinglePlotWidget {
-    color: white;
+
+QListView{
+    selection-background-color: grey;
+    border-radius: 0px;
+    color: grey;
+    background-color: white;
 }
-MultiPlotWidget {
-    color: white;
+
+GraphicsView{
+    background: white;
 }

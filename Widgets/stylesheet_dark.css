@@ -76,3 +76,7 @@ QListView{
     color: purple;
     background-color: black;
 }
+
+GraphicsView{
+    background: black;
+}
