@@ -1,13 +1,12 @@
 from pyqtgraph import PlotItem, mkPen
 
-from Widgets.Plots.IPlotWidget import IPlotWidget
+from lib.Widgets.Plots.IPlotWidget import IPlotWidget
 from lib.PlotDataStrategy.SinglePlotDataStrategy import SinglePlotDataStrategy
 
 
 class SinglePlotWidget(IPlotWidget):
     def __init__(self, plot_data_strategy: SinglePlotDataStrategy = None, data_objs: list = None):
         super().__init__(plot_data_strategy, data_objs)
-        self._data_lists = list()
         self.plot_item = PlotItem()
         self.__update_labels()
         self.addItem(self.plot_item)
@@ -15,29 +14,24 @@ class SinglePlotWidget(IPlotWidget):
     def update_data(self):
         self.plot_item.clear()
         if self._data_objs:
-            self._data_lists = self._plot_data_strategy.get_dp_lists(self._data_objs)
-            self.plot_data()
+            data = self._plot_data_strategy.get_dp_lists(self._data_objs)
+            self.plot_data(data)
 
-    def plot_data(self):
+    def plot_data(self, data):
         """
         LivePlot Data with different colors
         """
-        if self._data_lists and self._plot_data_strategy:
-            for i, data in enumerate(self._data_lists):
+        if data and self._plot_data_strategy:
+            for i in range(len(self._data_objs)):
                 if self._data_objs[i].get_checked():
-                    self.plot_item.plot(data, pen=mkPen(color=self._data_objs[i].get_color(), width=3))
+                    self.plot_item.plot(x=data[i][1], y=data[i][0],
+                                        pen=mkPen(color=self._data_objs[i].get_color(), width=3))
                 else:
-                    self.plot_item.plot(data, pen=mkPen(color=self._data_objs[i].get_color(), width=1))
-
-    def get_plot_data_strategy(self) -> SinglePlotDataStrategy:
-        return self._plot_data_strategy
+                    self.plot_item.plot(x=data[i][1], y=data[i][0],
+                                        pen=mkPen(color=self._data_objs[i].get_color(), width=1))
 
     def set_plot_data_strategy(self, plot_data_strategy: SinglePlotDataStrategy) -> None:
-        """
-        Usually, the Context allows replacing a Strategy object at runtime.
-        """
         self._plot_data_strategy = plot_data_strategy
-        self.update_data()
         self.__update_labels()
 
     def __update_labels(self):

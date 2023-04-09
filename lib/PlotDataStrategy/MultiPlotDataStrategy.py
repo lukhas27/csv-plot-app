@@ -1,6 +1,8 @@
 import json
 import os
 
+import numpy as np
+
 from lib.PlotDataStrategy.PlotDataStrategy import PlotDataStrategy
 
 
@@ -18,20 +20,31 @@ class MultiPlotDataStrategy(PlotDataStrategy):
 
         i = 0
         for _group in data_template.keys():
-            for j, identifier in enumerate(data_template[_group].keys()):
-                if _group == self.group:
-                    if j == 0:
-                        self.index = i
-                    self.identifier_list.append(identifier)
-                i += 1
+            if data_template[_group]:
+                for j, identifier in enumerate(data_template[_group].keys()):
+                    if _group == self.group:
+                        if j == 0:
+                            self.index = i
+                        self.identifier_list.append(identifier)
+                    i += 1
 
-    def get_dp_lists(self, data_objs: list) -> list:
+    def get_dp_lists(self, data_objs: list):
         ret = list()
+        ref_time = 0
         for data_obj in data_objs:
-            buff_list = list()
+            buff = list()
+            time_buff = list()
             for i, _ in enumerate(self.identifier_list):
-                buff_list.append([data_point[self.index + i] for data_point in data_obj])
-            ret.append(buff_list)
+                index_buff = list()
+                for j, data_point in enumerate(data_obj.get_data()):
+                    if j == 0:
+                        ref_time = data_point[len(data_point) - 1]
+                    index_buff.append(data_point[self.index + i])
+                    if i == len(self.identifier_list) - 1:
+                        time_buff.append(data_point[len(data_point) - 1] - ref_time)
+                buff.append(index_buff)
+            buff.append(time_buff)
+            ret.append(np.array(buff))
 
         return ret
 

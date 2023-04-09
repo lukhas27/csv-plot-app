@@ -28,23 +28,14 @@ class CsvFilesReader:
         """
         self.csv_files_list = csv_files_list
 
-    def get_data_of_csv_files(self) -> list:
+    def get_data_of_csv_files(self):
         """
         Get all data of the csv files in the asked directory in List of data objects.
 
         :return: list of data objects.
         """
-        data_objects = list()
+        ret = list()
         for file in self.csv_files_list:
-            with open(file, 'r') as f:
-                reader = csv.reader(f)
+            ret.append(np.loadtxt(file, delimiter=",", skiprows=1))
 
-                data_object = list()
-
-                for i, row in enumerate(reader):
-                    if i != 0:
-                        data_object.append([float(val) for val in row])
-
-            data_objects.append(data_object)
-
-        return data_objects
+        return ret

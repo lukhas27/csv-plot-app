@@ -1,7 +1,6 @@
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QComboBox, QVBoxLayout, QListView
 
-from Widgets.PlotModeWidget import PlotMode
+from lib.Widgets.PlotModeWidget import PlotMode
 from lib.PlotDataStrategy.SinglePlotDataStrategy import *
 
 
@@ -18,7 +17,6 @@ class PlotDataWidget(QWidget):
         self.cb_group.currentTextChanged.connect(self.on_cb_group_changed)
         self.cb_layout.addWidget(self.cb_group)
 
-
         self.cb_identifier = IdentifierCB(self.cb_group.currentText())
         lv_identifier = QListView()
         self.cb_identifier.setView(lv_identifier)
@@ -33,12 +31,12 @@ class PlotDataWidget(QWidget):
     """
 
     def on_cb_identifier_changed(self):
-        self.__update_plot_data_strategy()
+        self.update_plot_data_strategy()
 
     def on_cb_group_changed(self):
         self.cb_layout.removeWidget(self.cb_identifier)
         self.__init_identifier_cb()
-        self.__update_plot_data_strategy()
+        self.update_plot_data_strategy()
 
     def get_cbs(self) -> tuple:
         return self.cb_group.currentText(), self.cb_identifier.currentText()
@@ -59,7 +57,7 @@ class PlotDataWidget(QWidget):
     Private Methods
     """
 
-    def __update_plot_data_strategy(self):
+    def update_plot_data_strategy(self):
         group = self.cb_group.currentText()
         if self.parent.get_plot_mode() == PlotMode.SINGLE:
             identifier = self.cb_identifier.currentText()
@@ -70,10 +68,9 @@ class PlotDataWidget(QWidget):
     def __init_identifier_cb(self):
         self.cb_identifier = IdentifierCB(self.cb_group.currentText())
         self.cb_identifier.currentTextChanged.connect(self.on_cb_identifier_changed)
-        if self.parent.get_plot_mode() == PlotMode.SINGLE:
+        if self.parent.get_plot_mode() == PlotMode.SINGLE and self.cb_identifier.is_active:
             self.cb_layout.addWidget(self.cb_identifier)
             self.cb_identifier.setVisible(True)
-
         else:
             self.cb_identifier.setVisible(False)
 
@@ -86,7 +83,8 @@ class GroupCB(QComboBox):
             data_template = json.load(f)
 
             for group in data_template.keys():
-                self.addItem(group)
+                if group != 'time':
+                    self.addItem(group)
 
 
 class IdentifierCB(QComboBox):
@@ -94,11 +92,17 @@ class IdentifierCB(QComboBox):
         super().__init__()
 
         with open(f'{os.getcwd()}/lib/data_template.json') as f:
-                data_template = json.load(f)
+            self.is_active = True
+            data_template = json.load(f)
 
-                for _group in data_template.keys():
-                    if _group == group:
+            for _group in data_template.keys():
+                if _group == group:
+                    try:
                         for identifier in data_template[group].keys():
                             self.addItem(identifier)
+                    except AttributeError:
+                        self.is_active = False
+                        pass
+
 
 

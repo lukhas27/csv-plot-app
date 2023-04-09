@@ -3,7 +3,7 @@ import os
 
 from pyqtgraph import PlotItem, mkPen
 
-from Widgets.Plots.IPlotWidget import IPlotWidget
+from lib.Widgets.Plots.IPlotWidget import IPlotWidget
 from lib.PlotDataStrategy.MultiPlotDataStrategy import MultiPlotDataStrategy
 
 
@@ -13,29 +13,26 @@ class MultiPlotWidget(IPlotWidget):
     def __init__(self, plot_data_strategy: MultiPlotDataStrategy = None, data_objs: list = None):
         super().__init__(plot_data_strategy, data_objs)
         self.plot_items = list()
-
-        with open(f'{os.getcwd()}/lib/data_template.json') as f:
-            self.data_template = json.load(f)
-
         self.set_plot_data_strategy(plot_data_strategy)
+        self.__update_plot_items()
 
     def update_data(self):
         self.__clear_plot_items()
         if self._data_objs:
-            self._data_lists = self._plot_data_strategy.get_dp_lists([item.get_data() for item in self._data_objs])
-            self.plot_data()
+            data = self._plot_data_strategy.get_dp_lists(self._data_objs)
+            self.plot_data(data)
 
-    def plot_data(self):
+    def plot_data(self, data):
         """
         LivePlot Data of one sensor group with the amount of plots like the identifiers.
         """
-        if self._data_lists and self._plot_data_strategy:
-            for i, data_list in enumerate(self._data_lists):
+        if data and self._plot_data_strategy:
+            for i in range(len(data)):
                 for j, plot_item in enumerate(self.plot_items):
                     if self._data_objs[i].get_checked():
-                        plot_item.plot(data_list[j], pen=mkPen(color=self._data_objs[i].get_color(), width=3))
+                        plot_item.plot(x=data[i][len(data[i])-1], y=data[i][j], pen=mkPen(color=self._data_objs[i].get_color(), width=3))
                     else:
-                        plot_item.plot(data_list[j], pen=mkPen(color=self._data_objs[i].get_color(), width=1))
+                        plot_item.plot(x=data[i][len(data[i])-1], y=data[i][j], pen=mkPen(color=self._data_objs[i].get_color(), width=1))
 
     def get_plot_data_strategy(self) -> MultiPlotDataStrategy:
         return self._plot_data_strategy

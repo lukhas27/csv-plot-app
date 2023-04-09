@@ -5,7 +5,7 @@ class PlotDataStrategy(ABC):
     group: str
 
     @abstractmethod
-    def get_dp_lists(self, data_obj: list) -> list:
+    def get_dp_lists(self, data_obj):
         pass
 
     @abstractmethod

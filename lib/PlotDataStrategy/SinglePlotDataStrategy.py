@@ -1,6 +1,8 @@
 import json
 import os
 
+import numpy as np
+
 from lib.PlotDataStrategy.PlotDataStrategy import PlotDataStrategy
 
 
@@ -19,16 +21,24 @@ class SinglePlotDataStrategy(PlotDataStrategy):
 
         i = 0
         for _group in data_template.keys():
-            for _identifier in data_template[_group].keys():
-                if _group == group and _identifier == identifier:
-                    self.index = i
-                    return
-                i += 1
+            if data_template[_group]:
+                for _identifier in data_template[_group].keys():
+                    if _group == group and _identifier == identifier:
+                        self.index = i
+                        return
+                    i += 1
+            self.index = i
 
-    def get_dp_lists(self, data_objs: list) -> list:
+    def get_dp_lists(self, data_objs: list):
         ret = list()
+        ref_time = 0
         for data_obj in data_objs:
-            ret.append([data_point[self.index] for data_point in data_obj.get_data()])
+            buff = list()
+            for i, data_point in enumerate(data_obj.get_data()):
+                if i == 0:
+                    ref_time = data_point[len(data_point) - 1]
+                buff.append([data_point[self.index], data_point[len(data_point) - 1] - ref_time])
+            ret.append(np.array(buff).transpose())
 
         return ret
 

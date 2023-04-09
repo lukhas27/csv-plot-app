@@ -1,16 +1,14 @@
-import sys
-
 from PyQt5.QtCore import QFile, QTextStream
 from PyQt5.QtWidgets import *
 
-from Widgets.Plots.MultiPlotWidget import MultiPlotWidget
+from lib.Widgets.Plots.MultiPlotWidget import MultiPlotWidget
 from lib.CsvFilesReader import CsvFilesReader
 from lib.PlotDataStrategy.MultiPlotDataStrategy import *
 from lib.PlotDataStrategy.SinglePlotDataStrategy import *
-from Widgets.CSVFilesWidget import CSVFilesWidget
-from Widgets.PlotDataWidget import PlotDataWidget
-from Widgets.PlotModeWidget import *
-from Widgets.Plots.SinglePlotWidget import SinglePlotWidget
+from lib.Widgets.CSVFilesWidget import CSVFilesWidget
+from lib.Widgets.PlotDataWidget import PlotDataWidget
+from lib.Widgets.PlotModeWidget import *
+from lib.Widgets.Plots.SinglePlotWidget import SinglePlotWidget
 
 with open(f'{os.getcwd()}/lib/data_template.json') as f:
     data_template = json.load(f)
@@ -20,11 +18,14 @@ with open(f'{os.getcwd()}/lib/data_template.json') as f:
         for _identifier in data_template[_group]:
             INIT_IDENTIFIER = _identifier
             break
+        break
 
-css_file_path = 'Widgets/stylesheet_dark.css'
+css_file_path = 'lib/Widgets/stylesheet.css'
 file = QFile(css_file_path)
 file.open(QFile.ReadOnly | QFile.Text)
 GLOBAL_STYLES = QTextStream(file).readAll()
+
+HEADER_MAX_HEIGHT = 150
 
 
 class MainWindow(QMainWindow):
@@ -43,7 +44,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Plot Sensor Data of CSV Files")
         self.resize(1200, 800)
         self.setStyleSheet(GLOBAL_STYLES)
-        HEADER_MAX_HEIGHT = 150
 
         self.layout = QVBoxLayout()
         header_layout = QHBoxLayout()
@@ -78,13 +78,12 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.widget)
 
     def update_plot_data_strategy(self, group: str, identifier: str = None):
-        if identifier is not None:
+        if self.plot_mode == PlotMode.SINGLE:
             self.set_single_plot_data_strategy(SinglePlotDataStrategy(group, identifier))
             self.plot_widget.set_plot_data_strategy(self.single_plot_data_strategy)
         else:
             self.set_multi_plot_data_strategy(MultiPlotDataStrategy(group))
             self.plot_widget.set_plot_data_strategy(self.multi_plot_data_strategy)
-        self.plot_widget.update_data()
 
     def update_data_objs(self, data_objs: list):
         csv_reader = CsvFilesReader([item.get_path() for item in data_objs])
@@ -92,9 +91,8 @@ class MainWindow(QMainWindow):
         for i, data_obj in enumerate(data_objs):
             data_obj.set_data(all_files[i])
         self.set_data_objs(data_objs)
+        self.plot_data_widget.update_plot_data_strategy()
         self.plot_widget.set_data_objects(data_objs)
-        self.plot_widget.update_data()
-
 
     def update_plot_mode(self, plot_mode: PlotMode):
         self.set_plot_mode(plot_mode)
@@ -107,7 +105,7 @@ class MainWindow(QMainWindow):
             self.plot_widget = MultiPlotWidget(MultiPlotDataStrategy(group), self.data_objs)
         self.layout.addWidget(self.plot_widget)
         self.plot_widget.setVisible(True)
-        self.plot_widget.update_data()
+        self.plot_data_widget.update_plot_data_strategy()
         self.plot_data_widget.update_cbs()
 
     def set_data_objs(self, data_objs: list):

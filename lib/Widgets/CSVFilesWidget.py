@@ -54,10 +54,12 @@ class CSVFilesWidget(QWidget):
         self.update_data_objs()
 
     def delete_selected(self):
-        for item in self.csv_list_widget.selectedItems():
-            self.csv_list_widget.takeItem(self.csv_list_widget.row(item))
+        selected_items = self.csv_list_widget.selectedItems()
+        if selected_items:
+            for item in selected_items:
+                self.csv_list_widget.takeItem(self.csv_list_widget.row(item))
 
-        self.update_data_objs()
+            self.update_data_objs()
 
     def update_data_objs(self):
         buff = list()
@@ -162,12 +164,9 @@ def iterate_colors(num_colors: int, steps_loop: int):
 
 def decorate_url_to_text(s: str, i: int) -> str:
     strings = s.split('/')
-    strings = strings[len(strings) - 2:]
+    file_name = strings[len(strings) - 1]
 
-    test_person, test_time = strings[1].split('_')
-    test_time = test_time.replace("-", ".", 6)
-    test_time = test_time.replace(".", ":", 5)
-    test_time = test_time.replace(":", " ", 3)
-    test_time = test_time.replace(" ", "-", 2)
+    test_info = file_name.split('_')
+    data_set, test_num, test_direction = test_info[0], test_info[2], test_info[3].split('.')[0]
 
-    return f'[TEST {i + 1}]    Gesture: {strings[0]}    Person: {test_person}    Time: {test_time[0:19]}'
+    return f'DATASET[{data_set}]\t\tTest: {test_num}\tDirection: {test_direction}'

@@ -54,7 +54,7 @@ QRadioButton::indicator:unchecked {
 }
 
 QListWidget#CsvFilesList {
-    selection-background-color: blue;
+    selection-background-color: darkblue;
     color: white;
     background-color: white;
     border-radius: 0px;

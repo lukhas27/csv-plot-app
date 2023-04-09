@@ -6,7 +6,6 @@ from lib.PlotDataStrategy import PlotDataStrategy
 class IPlotWidget(GraphicsLayoutWidget):
     _plot_data_strategy: PlotDataStrategy
     _data_objs: list
-    _data_lists: list
 
     def __init__(self, plot_data_strategy: PlotDataStrategy, data_objs: list, **kargs):
         super().__init__(**kargs)
@@ -14,7 +13,6 @@ class IPlotWidget(GraphicsLayoutWidget):
         self._data_objs = data_objs
 
         self.setBackground(None)
-
 
     def set_data_objects(self, data_objs: list):
         """
@@ -30,5 +28,5 @@ class IPlotWidget(GraphicsLayoutWidget):
     def update_data(self):
         pass
 
-    def plot_data(self):
+    def plot_data(self, data):
         pass

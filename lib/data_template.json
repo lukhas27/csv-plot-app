@@ -23,5 +23,6 @@
         "Pitch": 0,
         "Yaw": 0
     },
-    "time": {}
+    "temp" : 0,
+    "time": 0
 }
