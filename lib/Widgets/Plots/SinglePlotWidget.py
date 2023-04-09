@@ -39,4 +39,4 @@ class SinglePlotWidget(IPlotWidget):
         identifier = self._plot_data_strategy.get_identifier()
         self.plot_item.setTitle(f'LivePlot values of {group}[{identifier}]')  # set Title of Widget
         self.plot_item.setLabel(axis='left', text=f'{group}[{identifier}]')
-        self.plot_item.setLabel(axis='bottom', text='data-points')
+        self.plot_item.setLabel(axis='bottom', text='time [sec]')

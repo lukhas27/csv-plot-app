@@ -32,11 +32,13 @@ class PlotDataWidget(QWidget):
 
     def on_cb_identifier_changed(self):
         self.update_plot_data_strategy()
+        self.parent.plot_widget.update_data()
 
     def on_cb_group_changed(self):
         self.cb_layout.removeWidget(self.cb_identifier)
         self.__init_identifier_cb()
         self.update_plot_data_strategy()
+        self.parent.plot_widget.update_data()
 
     def get_cbs(self) -> tuple:
         return self.cb_group.currentText(), self.cb_identifier.currentText()

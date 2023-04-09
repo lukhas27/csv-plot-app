@@ -41,6 +41,7 @@ class MultiPlotDataStrategy(PlotDataStrategy):
                         ref_time = data_point[len(data_point) - 1]
                     index_buff.append(data_point[self.index + i])
                     if i == len(self.identifier_list) - 1:
+                        # time in sec
                         time_buff.append(data_point[len(data_point) - 1] - ref_time)
                 buff.append(index_buff)
             buff.append(time_buff)

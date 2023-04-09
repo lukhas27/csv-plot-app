@@ -44,4 +44,5 @@ class PlotModeWidget(QWidget):
                 self.parent.update_plot_mode(PlotMode.SINGLE)
             elif self.rb_multi_plot_mode.isChecked():
                 self.parent.update_plot_mode(PlotMode.MULTI)
+        self.parent.plot_widget.update_data()
         self.i += 1

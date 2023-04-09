@@ -57,9 +57,11 @@ class MultiPlotWidget(IPlotWidget):
         group = self._plot_data_strategy.get_group()
         identifiers = self._plot_data_strategy.get_identifier()
 
-        for identifier in identifiers:
+        for i, identifier in enumerate(identifiers):
             plot_item = PlotItem()
             plot_item.setLabel(axis='left', text=f'{group}[{identifier}]')
+            if i == len(identifiers) - 1:
+                plot_item.setLabel(axis='bottom', text='time [sec]')
 
             self.addItem(plot_item)
             self.nextRow()

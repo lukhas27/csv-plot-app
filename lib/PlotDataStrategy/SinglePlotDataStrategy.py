@@ -37,7 +37,8 @@ class SinglePlotDataStrategy(PlotDataStrategy):
             for i, data_point in enumerate(data_obj.get_data()):
                 if i == 0:
                     ref_time = data_point[len(data_point) - 1]
-                buff.append([data_point[self.index], data_point[len(data_point) - 1] - ref_time])
+                # append data value and time in sec
+                buff.append([data_point[self.index], (data_point[len(data_point) - 1] - ref_time)/1000])
             ret.append(np.array(buff).transpose())
 
         return ret
