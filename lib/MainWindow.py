@@ -57,6 +57,9 @@ class MainWindow(QMainWindow):
         csv_widget.setLayout(layout_csv)
         header_layout.addWidget(csv_widget)
 
+        # Have to initialize plot widget before plot mode
+        self.plot_widget = SinglePlotWidget(self.single_plot_data_strategy, self.data_objs)
+
         layout_mode_data = QHBoxLayout()
         mode_data_widget = QWidget()
         mode_data_widget.setObjectName("ModeDataWidget")
@@ -70,7 +73,6 @@ class MainWindow(QMainWindow):
         header_layout.addWidget(mode_data_widget)
         self.layout.addLayout(header_layout)
 
-        self.plot_widget = SinglePlotWidget(self.single_plot_data_strategy, self.data_objs)
         self.layout.addWidget(self.plot_widget)
 
         self.widget = QWidget()
