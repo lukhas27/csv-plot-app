@@ -31,14 +31,12 @@ class SinglePlotDataStrategy(PlotDataStrategy):
 
     def get_dp_lists(self, data_objs: list):
         ret = list()
-        ref_time = 0
         for data_obj in data_objs:
             buff = list()
             for i, data_point in enumerate(data_obj.get_data()):
-                if i == 0:
-                    ref_time = data_point[len(data_point) - 1]
+
                 # append data value and time in sec
-                buff.append([data_point[self.index], (data_point[len(data_point) - 1] - ref_time)/1000])
+                buff.append([data_point[self.index], (data_point[len(data_point) - 1]) / 1000])
             ret.append(np.array(buff).transpose())
 
         return ret

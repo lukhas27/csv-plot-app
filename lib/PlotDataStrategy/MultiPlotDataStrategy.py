@@ -30,19 +30,17 @@ class MultiPlotDataStrategy(PlotDataStrategy):
 
     def get_dp_lists(self, data_objs: list):
         ret = list()
-        ref_time = 0
         for data_obj in data_objs:
             buff = list()
             time_buff = list()
             for i, _ in enumerate(self.identifier_list):
                 index_buff = list()
                 for j, data_point in enumerate(data_obj.get_data()):
-                    if j == 0:
-                        ref_time = data_point[len(data_point) - 1]
+
                     index_buff.append(data_point[self.index + i])
                     if i == len(self.identifier_list) - 1:
                         # time in sec
-                        time_buff.append((data_point[len(data_point) - 1] - ref_time) / 1000)
+                        time_buff.append((data_point[len(data_point) - 1]) / 1000)
                 buff.append(index_buff)
             buff.append(time_buff)
             ret.append(np.array(buff))
