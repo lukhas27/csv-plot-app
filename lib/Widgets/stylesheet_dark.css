@@ -1,0 +1,82 @@
+QMainWindow {
+    background-color: black;
+}
+
+QWidget {
+    border-radius: 5px;
+}
+
+QWidget#CsvWidget {
+    background-color: #212121;
+}
+
+QWidget#ModeDataWidget {
+    background-color: #212121;
+}
+QPushButton {
+    margin-right: 5px;
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: black;
+    border-color: purple;
+    color: purple;
+    border-radius: 15px;
+}
+
+QPushButton:hover {
+    border-style: solid;
+    border-width: 2px;
+}
+
+QRadioButton {
+    height: 100%;
+    width: 100%;
+    padding-left: 10px;
+    border-radius: 10px;
+    color: gray;
+}
+
+QRadioButton::indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 7px;
+}
+
+QRadioButton::indicator:checked {
+    background-color: purple;
+    border: 2px solid gray;
+}
+
+QRadioButton::indicator:unchecked {
+    background-color: black;
+    border: 2px solid gray;
+}
+
+QListWidget#CsvFilesList {
+    selection-background-color: black;
+    color: white;
+    background-color: black;
+    border-radius: 0px;
+    font-size: 13px;
+    padding: 0px;
+}
+
+QComboBox {
+    height: 40px;
+    width: 75px;
+    color: purple;
+    background-color: black;
+}
+
+
+QListView{
+    selection-background-color: purple;
+    border-radius: 0px;
+    color: purple;
+    background-color: black;
+}
+
+GraphicsView{
+    background: black;
+}
